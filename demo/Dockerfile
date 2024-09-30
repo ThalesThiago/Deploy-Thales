@@ -11,6 +11,8 @@ FROM openjdk:17-jdk-slim
 
 EXPOSE 8080
 
-COPY --from=build /app/target/deploy_render-1.0.0.jar /app/deploy_render-1.0.0.jar
+ENV PORT 8080
 
-ENTRYPOINT ["java", "-jar", "/app/deploy_render-1.0.0.jar"]
+COPY --from=build /app/target/*.jar app.jar
+
+ENTRYPOINT ["java", "-Dserver.port=${PORT}", "-jar", "app.jar"]
